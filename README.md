@@ -8,21 +8,18 @@ This custom integration allows you to monitor your Bartinst Kiln using Home Assi
 - Uses Home Assistant's config flow for easy setup.
 - Periodically polls the Bartinst cloud API for updates.
 
-## Installation
+## Installation (via HACS)
 
-1. Copy the `kiln_monitor` folder into your Home Assistant `custom_components` directory:
+1. Make sure you have [HACS](https://hacs.xyz/) installed in your Home Assistant.
+2. In HACS, go to **Integrations**.
+3. Click the three dots in the top right and select **Custom repositories**.
+4. Add this repository:  
    ```
-   custom_components/
-     kiln_monitor/
-       __init__.py
-       config_flow.py
-       const.py
-       coordinator.py
-       manifest.json
-       sensor.py
-       strings.json
+   https://github.com/igorparsadanov/kiln-monitor
    ```
-2. Restart Home Assistant.
+   as an **Integration**.
+5. Search for "Kiln Monitor" in HACS and install it.
+6. Restart Home Assistant.
 
 ## Configuration
 
