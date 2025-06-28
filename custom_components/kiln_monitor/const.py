@@ -11,9 +11,11 @@ DATA_URL = "https://kiln.bartinst.com/kilns/data"
 # Configuration keys
 CONF_EMAIL = "email"
 CONF_PASSWORD = "password"
+CONF_UPDATE_INTERVAL = "update_interval"
 
 # Default values
-SCAN_INTERVAL = timedelta(minutes=5)
+DEFAULT_UPDATE_INTERVAL = 5  # minutes
+SCAN_INTERVAL = timedelta(minutes=DEFAULT_UPDATE_INTERVAL)
 
 # Sensor definitions
 SENSORS = {

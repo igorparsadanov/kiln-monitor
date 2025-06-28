@@ -18,5 +18,16 @@
     "abort": {
       "already_configured": "Account is already configured"
     }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Kiln Monitor Options",
+        "description": "Configure update settings",
+        "data": {
+          "update_interval": "Update interval (minutes)"
+        }
+      }
+    }
   }
 }

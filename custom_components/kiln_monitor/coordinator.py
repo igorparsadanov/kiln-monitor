@@ -2,12 +2,21 @@
 from __future__ import annotations
 
 import logging
+from datetime import timedelta
 from typing import Any
 
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
-from .const import DATA_URL, LOGIN_URL, SCAN_INTERVAL, SETTINGS_URL, CONF_EMAIL, CONF_PASSWORD
+from .const import (
+    DATA_URL,
+    LOGIN_URL,
+    SETTINGS_URL,
+    CONF_EMAIL,
+    CONF_PASSWORD,
+    CONF_UPDATE_INTERVAL,
+    DEFAULT_UPDATE_INTERVAL,
+)
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -15,9 +24,20 @@ _LOGGER = logging.getLogger(__name__)
 class KilnDataCoordinator(DataUpdateCoordinator[dict[str, Any]]):
     """Class to manage fetching data from the Kiln API."""
 
-    def __init__(self, hass: HomeAssistant, session, config_data: dict[str, str]) -> None:
+    def __init__(
+        self,
+        hass: HomeAssistant,
+        session,
+        config_data: dict[str, str],
+        update_interval_minutes: int = DEFAULT_UPDATE_INTERVAL,
+    ) -> None:
         """Initialize."""
-        super().__init__(hass, _LOGGER, name="Kiln API", update_interval=SCAN_INTERVAL)
+        super().__init__(
+            hass,
+            _LOGGER,
+            name="Kiln API",
+            update_interval=timedelta(minutes=update_interval_minutes),
+        )
         self.session = session
         self.email = config_data[CONF_EMAIL]
         self.password = config_data[CONF_PASSWORD]
@@ -25,6 +45,11 @@ class KilnDataCoordinator(DataUpdateCoordinator[dict[str, Any]]):
         self.kiln_id: str | None = None
         self.serial_number: str | None = None
         self.kiln_name: str | None = None
+
+    def update_interval_minutes(self, minutes: int) -> None:
+        """Update the refresh interval."""
+        self.update_interval = timedelta(minutes=minutes)
+        _LOGGER.debug("Update interval changed to %d minutes", minutes)
 
     async def _async_update_data(self) -> dict[str, Any]:
         """Update data via library."""
