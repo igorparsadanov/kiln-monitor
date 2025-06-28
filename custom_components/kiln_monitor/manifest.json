@@ -1,10 +1,10 @@
 {
   "domain": "kiln_monitor",
   "name": "Kiln Monitor",
-  "codeowners": ["@homeassistant/core"],
+  "codeowners": ["parsadanov@gmail.com"],
   "config_flow": true,
   "dependencies": [],
-  "documentation": "https://github.com/custom-components/kiln_monitor",
+  "documentation": "https://github.com/igorparsadanov/kiln-monitor",
   "integration_type": "hub",
   "iot_class": "cloud_polling",
   "requirements": [],
