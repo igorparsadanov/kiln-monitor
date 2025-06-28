@@ -1,12 +1,12 @@
 # Kiln Monitor Home Assistant Integration
 
-This custom integration allows you to monitor your Bartinst Kiln using Home Assistant. It connects to the Bartinst cloud API, retrieves kiln data, and exposes it as sensors in your Home Assistant instance.
+This custom integration allows you to monitor your Bartlett Instruments Kiln using Home Assistant. It connects to the Cloud API, retrieves kiln data, and exposes it as sensors in your Home Assistant instance.
 
 ## Features
 
 - Monitors kiln temperature, status, firmware version, number of firings, and zone count.
 - Uses Home Assistant's config flow for easy setup.
-- Periodically polls the Bartinst cloud API for updates.
+- Periodically polls the KilnAid cloud API for updates.
 
 ## Installation (via HACS)
 
@@ -25,7 +25,7 @@ This custom integration allows you to monitor your Bartinst Kiln using Home Assi
 
 1. In Home Assistant, go to **Settings > Devices & Services > Integrations**.
 2. Click **Add Integration** and search for "Kiln Monitor".
-3. Enter your Bartinst Kiln email and password credentials.
+3. Enter your KilnAid email and password credentials.
 4. Complete the setup wizard.
 
 ## Sensors Provided
