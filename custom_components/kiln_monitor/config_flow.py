@@ -131,7 +131,7 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
                     vol.Optional(
                         CONF_UPDATE_INTERVAL,
                         default=current_interval,
-                    ): vol.All(vol.Coerce(int), vol.Range(min=1, max=60)),
+                    ): vol.All(vol.Coerce(int), vol.Range(min=5, max=60)),
                 }
             ),
         )
