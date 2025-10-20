@@ -28,17 +28,23 @@ async def async_setup_entry(
     async_add_entities: AddEntitiesCallback,
 ) -> None:
     """Set up the sensor platform."""
-    coordinator: KilnDataCoordinator = hass.data[DOMAIN][config_entry.entry_id]
+    coordinators: list[KilnDataCoordinator] = hass.data[DOMAIN][config_entry.entry_id]
 
     sensors = []
-    for sensor_key, sensor_config in SENSORS.items():
-        sensors.append(
-            KilnSensor(
-                coordinator=coordinator,
-                sensor_key=sensor_key,
-                sensor_config=sensor_config,
+    
+    # Create sensors for each kiln
+    for coordinator in coordinators:
+        for sensor_key, sensor_config in SENSORS.items():
+            sensors.append(
+                KilnSensor(
+                    coordinator=coordinator,
+                    sensor_key=sensor_key,
+                    sensor_config=sensor_config,
+                )
             )
-        )
+        
+        _LOGGER.info("Created %d sensors for kiln %s", 
+                    len(SENSORS), coordinator.kiln_name)
 
     async_add_entities(sensors)
 
@@ -57,8 +63,9 @@ class KilnSensor(CoordinatorEntity[KilnDataCoordinator], SensorEntity):
         self._sensor_key = sensor_key
         self._sensor_config = sensor_config
         
-        # Entity attributes
-        self._attr_name = sensor_config["name"]
+        # Entity attributes - include kiln name for multiple kilns
+        kiln_name = coordinator.kiln_name or "Kiln"
+        self._attr_name = f"{kiln_name} {sensor_config['name']}"
         self._attr_unique_id = f"{coordinator.serial_number}_{sensor_key}"
         self._attr_native_unit_of_measurement = sensor_config["unit"]
         
@@ -110,7 +117,8 @@ class KilnSensor(CoordinatorEntity[KilnDataCoordinator], SensorEntity):
             return None
             
         except (KeyError, ValueError, TypeError) as exc:
-            _LOGGER.error("Failed to parse sensor %s: %s", self._sensor_key, exc)
+            _LOGGER.error("Failed to parse sensor %s for kiln %s: %s", 
+                         self._sensor_key, self.coordinator.kiln_name, exc)
             return None
 
     @property
